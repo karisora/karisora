@@ -1,0 +1,37 @@
+name: GitHub Metrics
+on:
+  # 毎日0時（UTC）に自動実行
+  schedule:
+    - cron: "0 0 * * *"
+  # 手動実行も可能にする
+  workflow_dispatch:
+  # mainブランチへのpushでも実行
+  push:
+    branches:
+      - main
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Metrics
+        uses: lowlighter/metrics@latest
+        with:
+          # ファイル名と出力先
+          filename: output/metrics.svg
+          # トークンを指定（プライベートリポジトリを含める場合）
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          # パブリックリポジトリのみの場合は、以下のコメントを解除
+          # token: ${{ secrets.GITHUB_TOKEN }}
+
+          # 基本設定
+          base: header, activity, community, repositories, metadata
+
+          # プラグイン設定
+          plugin_languages: yes
+          plugin_languages_details: bytes-size, percentage
+          plugin_languages_limit: 8
+          plugin_followup: yes
+          plugin_followup_indepth: yes
+          plugin_achievements: yes
+          plugin_achievements_display: compact
+          plugin_achievements_threshold: X
