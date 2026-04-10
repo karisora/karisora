@@ -1,0 +1,30 @@
+name: Generate 3D Contribution Graph
+on:
+  # 毎日0時（UTC）に自動実行
+  schedule:
+    - cron: "0 0 * * *"
+  # 手動実行も可能にする
+  workflow_dispatch:
+  # mainブランチへのpushでも実行
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Generate 3D Contribution Graph
+    steps:
+      - uses: actions/checkout@v3
+      - uses: yoshi389111/github-profile-3d-contrib@0.7.1
+        env:
+          # プライベートリポジトリを含める場合はPERSONAL_ACCESS_TOKENを使用
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+      - name: Commit & Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "generated"
+          git push
