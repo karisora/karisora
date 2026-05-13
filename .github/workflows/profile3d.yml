@@ -25,6 +25,7 @@ jobs:
           # PERSONAL_ACCESS_TOKENがあれば優先し、未設定ならGitHub標準トークンを使用
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+          SETTING_JSON: conf/github-profile-3d-contrib.json
       - name: Commit & Push
         run: |
           git config user.name "github-actions[bot]"

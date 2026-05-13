@@ -1,31 +1,22 @@
-## My GitHub Stats
+<div align="center">
 
+# My GitHub Stats
 
-<p align="left">
-  <picture>
-    <source media="(prefers-color-scheme: dark)"  srcset="output/metrics.base.svg" width="400" />
-    <source media="(prefers-color-scheme: light)" srcset="output/metrics.base.svg" width="400" />
-    <img alt="github profile contributions chart"    src="https://raw.githubusercontent.com/karisora/karisora/output-3d-contrib/day.svg" />
-  </picture>
-  <picture>
-   	<source media="(prefers-color-scheme: dark)"  srcset="output/details.svg" width="400" />
-    <source media="(prefers-color-scheme: light)" srcset="output/details.svg" width="400" />
-    <img alt="github profile contributions chart"    src="https://raw.githubusercontent.com/karisora/karisora/output-3d-contrib/day.svg" />
-  </picture>
+<p>
+  <img src="https://komarev.com/ghpvc/?username=karisora&style=flat-square&color=14b8a6" alt="profile views" />
+  <img src="https://img.shields.io/github/followers/karisora?style=flat-square&label=Followers&color=0f766e" alt="github followers" />
+  <img src="https://img.shields.io/github/stars/karisora?affiliations=OWNER%2CCOLLABORATOR&style=flat-square&label=Stars&color=5eead4" alt="github stars" />
 </p>
 
-<p align="left" >
-	<picture>
-	  <source media="(prefers-color-scheme: dark)"  srcset="profile-3d-contrib/profile-night-rainbow.svg" width="700" />
-	  <source media="(prefers-color-scheme: light)" srcset="profile-3d-contrib/profile-season-animate.svg" width="700" />
-	  <img alt="github profile 3d contributions chart" src="profile-3d-contrib/profile-season-animate.svg" width="700" />
-	</picture>
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="profile-3d-contrib/profile-night-rainbow.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="profile-3d-contrib/profile-season-animate.svg" />
+  <img src="profile-3d-contrib/profile-season-animate.svg" alt="github profile 3d contributions chart" width="860" />
+</picture>
 
-<p align="left">
-  <picture>
-    <source media="(prefers-color-scheme: light)"  srcset="output/metrics.plugin.achievements.compact.svg" width="400" />
-    <source media="(prefers-color-scheme: dark)"  srcset="output/metrics.plugin.achievements.compact.svg" width="400" />
-  <img alt="github profile contributions chart"    src="https://raw.githubusercontent.com/karisora/karisora/output-3d-contrib/day.svg" />
-  </picture>
-</p>
+<br />
+<br />
+
+<img src="output/metrics.svg" alt="github metrics" width="480" />
+
+</div>
