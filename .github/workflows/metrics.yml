@@ -11,6 +11,11 @@ on:
     branches:
       - main
 
+# 同じワークフローの重複実行時は古いジョブをキャンセル
+concurrency:
+  group: github-metrics
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
