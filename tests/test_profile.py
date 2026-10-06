@@ -1,9 +1,12 @@
 import importlib.util
 from datetime import date, timedelta
 from pathlib import Path
+import os
 import tempfile
 import unittest
 from unittest.mock import patch
+from urllib.error import HTTPError
+from urllib.parse import parse_qs, urlparse
 import xml.etree.ElementTree as ET
 
 spec = importlib.util.spec_from_file_location("profile", Path(__file__).resolve().parents[1] / "scripts/generate_profile.py")
@@ -76,6 +79,60 @@ class RepositoryTests(unittest.TestCase):
         self.assertEqual(fetch.call_count, 1)
 
 
+    def test_private_languages_paginate_filter_and_export_only_totals(self):
+        owned = {"name": "secret-project", "private": True, "fork": False,
+                 "owner": {"login": "karisora"}}
+        foreign = {**owned, "owner": {"login": "another-owner"}}
+        public = {**owned, "private": False}
+        fork = {**owned, "fork": True}
+        def response(url, **kwargs):
+            self.assertEqual(kwargs["token"], "test-language-token")
+            if "/user/repos?" in url:
+                self.assertIn("visibility=private", url)
+                self.assertIn("affiliation=owner", url)
+                first_page = parse_qs(urlparse(url).query)["page"] == ["1"]
+                return [owned] * 98 + [foreign, public] if first_page else [fork]
+            return {"Python": 10}
+        with patch.object(profile, "fetch", side_effect=response):
+            totals = profile.private_language_totals("karisora", "test-language-token")
+        self.assertEqual(totals, {"Python": 980})
+        self.assertNotIn("secret-project", str(totals))
+
+    def test_private_request_errors_hide_repository_name(self):
+        private = {"name": "secret-project", "fork": False}
+        error = HTTPError("https://api.github.com/repos/karisora/secret-project/languages", 403, "Forbidden", {}, None)
+        with patch.object(profile, "fetch", side_effect=error):
+            with self.assertRaises(RuntimeError) as raised:
+                profile.language_totals([private], "karisora", token="test-language-token")
+        self.assertNotIn("secret-project", str(raised.exception))
+        self.assertTrue(raised.exception.__suppress_context__)
+
+    def test_language_token_is_not_sent_to_calendar_or_public_api(self):
+        environment = {"GITHUB_TOKEN": "public-token", "PROFILE_LANGUAGES_TOKEN": "private-token"}
+        with patch.dict(os.environ, environment), patch.object(profile, "urlopen") as urlopen:
+            urlopen.return_value.__enter__.return_value.read.return_value = b'{}'
+            profile.fetch("https://github.com/users/karisora/contributions")
+            calendar_request = urlopen.call_args.args[0]
+            self.assertIsNone(calendar_request.get_header("Authorization"))
+            profile.fetch("https://api.github.com/users/karisora/repos", api=True)
+            self.assertEqual(urlopen.call_args.args[0].get_header("Authorization"), "Bearer public-token")
+            profile.fetch("https://api.github.com/user/repos", api=True, token="private-token")
+            self.assertEqual(urlopen.call_args.args[0].get_header("Authorization"), "Bearer private-token")
+
+    def test_collected_snapshot_contains_only_aggregate_private_data(self):
+        public = {"name": "project", "private": False}
+        with patch.dict(os.environ, {"PROFILE_LANGUAGES_TOKEN": "test-language-token"}), \
+             patch.object(profile, "fetch", return_value=calendar_html()), \
+             patch.object(profile, "public_repositories", return_value=[public]), \
+             patch.object(profile, "language_totals", return_value={"C++": 100}), \
+             patch.object(profile, "private_language_totals", return_value={"Python": 300}):
+            data = profile.collect_data({"username": "karisora"})
+        self.assertEqual(data["languages"], {"Python": 300, "C++": 100})
+        self.assertEqual(data["repositories"], [public])
+        self.assertTrue(data["languages_include_private"])
+        self.assertNotIn("test-language-token", str(data))
+
+
 class RenderTests(unittest.TestCase):
     def test_themes_xml_escaping_and_readme_links(self):
         parser = profile.CalendarParser()
@@ -105,6 +162,13 @@ class RenderTests(unittest.TestCase):
         self.assertEqual(len(lines), 2)
         self.assertTrue(all(profile.text_width(line) <= 49 for line in lines))
         self.assertTrue(lines[-1].endswith("…"))
+
+    def test_private_language_scope_is_labeled_without_repository_details(self):
+        for theme in profile.THEMES:
+            svg = profile.languages_svg({"Python": 300, "C++": 100}, theme, include_private=True)
+            self.assertIn("Public + private originals", svg)
+            self.assertIn("75.0%", svg)
+            ET.fromstring(svg)
 
 
 if __name__ == "__main__":

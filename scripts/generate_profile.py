@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render profile SVGs from public GitHub data, including published private counts."""
+"""Render profile SVGs with optional aggregate language statistics from private repos."""
 
 import argparse
 from collections import Counter
@@ -39,7 +39,7 @@ LANGUAGE_COLORS = {
 }
 
 
-def fetch(url, *, api=False):
+def fetch(url, *, api=False, token=None):
     # Calendar requests are anonymous. Credentials go only to GitHub REST.
     headers = {"User-Agent": "karisora-profile-generator", "Accept-Language": "en-US"}
     if api:
@@ -47,7 +47,7 @@ def fetch(url, *, api=False):
             raise ValueError("API requests must target api.github.com")
         headers["Accept"] = "application/vnd.github+json"
         headers["X-GitHub-Api-Version"] = "2022-11-28"
-        token = os.environ.get("GITHUB_TOKEN")
+        token = token or os.environ.get("GITHUB_TOKEN")
         if token:
             headers["Authorization"] = f"Bearer {token}"
     for attempt in range(3):
@@ -142,15 +142,40 @@ def public_repositories(username):
     return repos
 
 
-def language_totals(repositories, username):
+def language_totals(repositories, username, *, token=None):
     originals = [repo for repo in repositories if not repo["fork"] and repo["name"] != username]
     def read_languages(repo):
-        return fetch(f"https://api.github.com/repos/{username}/{repo['name']}/languages", api=True)
+        url = f"https://api.github.com/repos/{username}/{repo['name']}/languages"
+        if token:
+            try:
+                return fetch(url, api=True, token=token)
+            except Exception:
+                # Private names must not appear in public workflow tracebacks.
+                raise RuntimeError("Unable to read private language statistics. Check token access and expiry.") from None
+        return fetch(url, api=True)
     total = Counter()
     with ThreadPoolExecutor(max_workers=4) as pool:
         for languages in pool.map(read_languages, originals):
             total.update(languages)
     return dict(total.most_common())
+
+
+def private_language_totals(username, token):
+    """Return only aggregate bytes; never export private repository metadata."""
+    private_repos = []
+    page = 1
+    while True:
+        query = urlencode({"visibility": "private", "affiliation": "owner",
+                           "per_page": 100, "page": page})
+        batch = fetch(f"https://api.github.com/user/repos?{query}", api=True, token=token)
+        if not isinstance(batch, list):
+            raise ValueError("Expected a private repository list")
+        private_repos.extend(repo for repo in batch if repo.get("private") is True
+                             and repo["owner"]["login"].lower() == username.lower())
+        if len(batch) < 100:
+            break
+        page += 1
+    return language_totals(private_repos, username, token=token)
 
 
 def attributes(values):
@@ -237,12 +262,14 @@ def activity_svg(days, theme, updated):
     return svg.finish()
 
 
-def languages_svg(languages, theme):
-    svg = SVG(440, 300, theme, "Language mix", "Language percentages by code bytes in public, non-fork repositories.")
+def languages_svg(languages, theme, *, include_private=False):
+    scope = "public and token-accessible private" if include_private else "public"
+    svg = SVG(440, 300, theme, "Language mix", f"Language percentages by code bytes in {scope}, non-fork repositories.")
     colors = svg.theme
     svg.label("THE CODE BEHIND THE WORK")
     svg.text(28, 71, "Language mix", size=26, font_weight=650, letter_spacing=-0.7)
-    svg.text(28, 94, "Public originals · share of code bytes", size=12, color=colors["muted"])
+    label = "Public + private originals · code bytes" if include_private else "Public originals · share of code bytes"
+    svg.text(28, 94, label, size=12, color=colors["muted"])
     entries = list(languages.items())
     top = entries[:5]
     if len(entries) > 5:
@@ -358,13 +385,18 @@ def collect_data(config):
         parser.feed(calendar_task.result())
         days = parser.days()
         repositories = repositories_task.result()
+    languages = Counter(language_totals(repositories, username))
+    private_token = os.environ.get("PROFILE_LANGUAGES_TOKEN")
+    if private_token:
+        languages.update(private_language_totals(username, private_token))
     return {"days": days, "repositories": repositories,
-            "languages": language_totals(repositories, username),
+            "languages": dict(languages.most_common()), "languages_include_private": bool(private_token),
             "updated": datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y.%m.%d")}
 
 
 def generate(config, data, output_dir, readme):
-    by_name = {repo["name"]: repo for repo in data["repositories"] if repo.get("private") is False}
+    public_repos = [repo for repo in data["repositories"] if repo.get("private") is False]
+    by_name = {repo["name"]: repo for repo in public_repos}
     featured = config["featured_repositories"]
     missing = set(featured) - set(by_name)
     if missing:
@@ -372,8 +404,9 @@ def generate(config, data, output_dir, readme):
     images = {}
     for theme in THEMES:
         images[f"activity-{theme}.svg"] = activity_svg(data["days"], theme, data["updated"])
-        images[f"languages-{theme}.svg"] = languages_svg(data["languages"], theme)
-        images[f"overview-{theme}.svg"] = overview_svg(data["repositories"], theme)
+        images[f"languages-{theme}.svg"] = languages_svg(
+            data["languages"], theme, include_private=data.get("languages_include_private", False))
+        images[f"overview-{theme}.svg"] = overview_svg(public_repos, theme)
         for name in featured:
             images[f"repository-{name}-{theme}.svg"] = repository_svg(by_name[name], theme)
     original = readme.read_text()

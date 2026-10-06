@@ -27,7 +27,7 @@ Undergraduate developer based in Sendai, Japan.
   <a href="https://github.com/karisora?tab=repositories">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="output/languages-dark.svg" />
-      <img src="output/languages-light.svg" width="400" alt="Language percentages by code bytes in my public, non-fork repositories" />
+      <img src="output/languages-light.svg" width="400" alt="My language mix by code bytes, excluding forks" />
     </picture>
   </a>
   <a href="https://github.com/karisora?tab=repositories">
