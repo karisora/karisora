@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="300" viewBox="0 0 440 300" role="img" aria-labelledby="title description">
+<title id="title">Language mix</title>
+<desc id="description">Language percentages by code bytes in public, non-fork repositories.</desc>
+<defs><linearGradient id="surface" x2="1" y2="1"><stop stop-color="#101b17"/><stop offset="1" stop-color="#152a21"/></linearGradient></defs>
+<g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, Hiragino Sans, Noto Sans CJK JP, sans-serif">
+<rect x="0.5" y="0.5" width="439" height="299" fill="url(#surface)" rx="20" stroke="#294035"/>
+<text x="28" y="35" fill="#9ab5a7" font-size="11" font-weight="600" letter-spacing="2">THE CODE BEHIND THE WORK</text>
+<text x="28" y="71" fill="#e1f2e9" font-size="26" font-weight="650" letter-spacing="-0.7">Language mix</text>
+<text x="28" y="94" fill="#9ab5a7" font-size="12">Public originals · share of code bytes</text>
+<defs><clipPath id="bar"><rect x="28" y="119" width="384" height="10" rx="5"/></clipPath></defs>
+<g clip-path="url(#bar)">
+<rect x="28" y="119" width="136.864" height="10" fill="#69a7e7"/>
+<rect x="164.864" y="119" width="92.208" height="10" fill="#e891af"/>
+<rect x="257.072" y="119" width="79.49" height="10" fill="#95c76d"/>
+<rect x="336.562" y="119" width="41.589" height="10" fill="#6ea8dc"/>
+<rect x="378.151" y="119" width="13.422" height="10" fill="#a1acba"/>
+<rect x="391.573" y="119" width="20.427" height="10" fill="#8daf9e"/>
+</g>
+<rect x="28" y="151" width="8" height="8" fill="#69a7e7" rx="3"/>
+<text x="44" y="160" fill="#e1f2e9" font-size="12">TypeScript</text>
+<text x="44" y="177" fill="#9ab5a7" font-size="11">35.6%</text>
+<rect x="228" y="151" width="8" height="8" fill="#e891af" rx="3"/>
+<text x="244" y="160" fill="#e1f2e9" font-size="12">C++</text>
+<text x="244" y="177" fill="#9ab5a7" font-size="11">24.0%</text>
+<rect x="28" y="191" width="8" height="8" fill="#95c76d" rx="3"/>
+<text x="44" y="200" fill="#e1f2e9" font-size="12">C#</text>
+<text x="44" y="217" fill="#9ab5a7" font-size="11">20.7%</text>
+<rect x="228" y="191" width="8" height="8" fill="#6ea8dc" rx="3"/>
+<text x="244" y="200" fill="#e1f2e9" font-size="12">Python</text>
+<text x="244" y="217" fill="#9ab5a7" font-size="11">10.8%</text>
+<rect x="28" y="231" width="8" height="8" fill="#a1acba" rx="3"/>
+<text x="44" y="240" fill="#e1f2e9" font-size="12">C</text>
+<text x="44" y="257" fill="#9ab5a7" font-size="11">3.5%</text>
+<rect x="228" y="231" width="8" height="8" fill="#8daf9e" rx="3"/>
+<text x="244" y="240" fill="#e1f2e9" font-size="12">Other</text>
+<text x="244" y="257" fill="#9ab5a7" font-size="11">5.3%</text>
+<path d="M28 267H412" stroke="#294035"/>
+<text x="28" y="285" fill="#9ab5a7" font-size="11">Small experiments. Different languages.</text>
+</g></svg>

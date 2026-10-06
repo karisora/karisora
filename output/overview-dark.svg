@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="300" viewBox="0 0 440 300" role="img" aria-labelledby="title description">
+<title id="title">GitHub at a glance</title>
+<desc id="description">Public repository statistics for karisora.</desc>
+<defs><linearGradient id="surface" x2="1" y2="1"><stop stop-color="#101b17"/><stop offset="1" stop-color="#152a21"/></linearGradient></defs>
+<g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, Hiragino Sans, Noto Sans CJK JP, sans-serif">
+<rect x="0.5" y="0.5" width="439" height="299" fill="url(#surface)" rx="20" stroke="#294035"/>
+<text x="28" y="35" fill="#9ab5a7" font-size="11" font-weight="600" letter-spacing="2">OPEN SOURCE FOOTPRINT</text>
+<text x="28" y="71" fill="#e1f2e9" font-size="26" font-weight="650" letter-spacing="-0.7">GitHub at a glance</text>
+<text x="28" y="94" fill="#9ab5a7" font-size="12">Ideas, experiments, and shared code</text>
+<text x="28" y="148" fill="#72dfa0" font-size="30" font-weight="650">18</text>
+<text x="28" y="169" fill="#9ab5a7" font-size="12">public repositories</text>
+<text x="228" y="148" fill="#72dfa0" font-size="30" font-weight="650">12</text>
+<text x="228" y="169" fill="#9ab5a7" font-size="12">original repositories</text>
+<text x="28" y="225" fill="#72dfa0" font-size="30" font-weight="650">1</text>
+<text x="28" y="246" fill="#9ab5a7" font-size="12">stars received</text>
+<text x="228" y="225" fill="#72dfa0" font-size="30" font-weight="650">2</text>
+<text x="228" y="246" fill="#9ab5a7" font-size="12">forks received</text>
+<path d="M28 267H412" stroke="#294035"/>
+<text x="28" y="285" fill="#9ab5a7" font-size="11">Explore the repositories below ↗</text>
+</g></svg>

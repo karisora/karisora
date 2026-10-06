@@ -1,0 +1,70 @@
+name: Update profile cards
+
+on:
+  schedule:
+    # 毎日03:10 JST（18:10 UTC）に更新
+    - cron: "10 18 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - README.md
+      - profile.json
+      - scripts/**
+      - tests/**
+      - .github/workflows/profile.yml
+  pull_request:
+    paths:
+      - README.md
+      - profile.json
+      - scripts/**
+      - tests/**
+      - .github/workflows/profile.yml
+
+concurrency:
+  group: profile-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate calendar parsing and profile rendering
+        run: python -m unittest discover -s tests -v
+
+  generate:
+    if: github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate light and dark profile cards
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/generate_profile.py
+      - name: Commit refreshed cards
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add output/*.svg README.md
+          if git diff --cached --quiet; then
+            echo "Profile cards are already up to date."
+          else
+            git commit -m "Update profile cards [skip ci]"
+            git push origin HEAD:main
+          fi

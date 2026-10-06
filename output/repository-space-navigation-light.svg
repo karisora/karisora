@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="178" viewBox="0 0 440 178" role="img" aria-labelledby="title description">
+<title id="title">space-navigation</title>
+<desc id="description">Space navigation framework and system for lunar and mars rover.</desc>
+<defs><linearGradient id="surface" x2="1" y2="1"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#f3faf6"/></linearGradient></defs>
+<g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, Hiragino Sans, Noto Sans CJK JP, sans-serif">
+<rect x="0.5" y="0.5" width="439" height="177" fill="url(#surface)" rx="20" stroke="#dce8e1"/>
+<text x="28" y="31" fill="#597368" font-size="11" font-weight="600" letter-spacing="2">SELECTED REPOSITORY</text>
+<text x="412" y="32" fill="#168454" font-size="20" text-anchor="end">↗</text>
+<text x="28" y="65" fill="#18352b" font-size="21" font-weight="650" letter-spacing="-0.4">space-navigation</text>
+<text x="28" y="90" fill="#597368" font-size="12">Space navigation framework and system for lunar</text>
+<text x="28" y="108" fill="#597368" font-size="12">and mars rover.</text>
+<path d="M28 127H412" stroke="#dce8e1"/>
+<rect x="28" y="147" width="8" height="8" fill="#168454" rx="4"/>
+<text x="43" y="155" fill="#597368" font-size="11">Repository</text>
+<text x="412" y="155" fill="#597368" font-size="11" text-anchor="end">★ 0   ·   ⑂ 0</text>
+</g></svg>
