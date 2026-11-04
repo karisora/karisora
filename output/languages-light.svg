@@ -9,31 +9,31 @@
 <text x="28" y="94" fill="#597368" font-size="12">Public + private originals · code bytes</text>
 <defs><clipPath id="bar"><rect x="28" y="119" width="384" height="10" rx="5"/></clipPath></defs>
 <g clip-path="url(#bar)">
-<rect x="28" y="119" width="136.864" height="10" fill="#69a7e7"/>
-<rect x="164.864" y="119" width="92.208" height="10" fill="#e891af"/>
-<rect x="257.072" y="119" width="79.49" height="10" fill="#95c76d"/>
-<rect x="336.562" y="119" width="41.589" height="10" fill="#6ea8dc"/>
-<rect x="378.151" y="119" width="13.422" height="10" fill="#a1acba"/>
-<rect x="391.573" y="119" width="20.427" height="10" fill="#8daf9e"/>
+<rect x="28" y="119" width="130.519" height="10" fill="#69a7e7"/>
+<rect x="158.519" y="119" width="87.933" height="10" fill="#e891af"/>
+<rect x="246.451" y="119" width="75.805" height="10" fill="#95c76d"/>
+<rect x="322.256" y="119" width="57.464" height="10" fill="#6ea8dc"/>
+<rect x="379.72" y="119" width="12.8" height="10" fill="#a1acba"/>
+<rect x="392.52" y="119" width="19.48" height="10" fill="#8daf9e"/>
 </g>
 <rect x="28" y="151" width="8" height="8" fill="#69a7e7" rx="3"/>
 <text x="44" y="160" fill="#18352b" font-size="12">TypeScript</text>
-<text x="44" y="177" fill="#597368" font-size="11">35.6%</text>
+<text x="44" y="177" fill="#597368" font-size="11">34.0%</text>
 <rect x="228" y="151" width="8" height="8" fill="#e891af" rx="3"/>
 <text x="244" y="160" fill="#18352b" font-size="12">C++</text>
-<text x="244" y="177" fill="#597368" font-size="11">24.0%</text>
+<text x="244" y="177" fill="#597368" font-size="11">22.9%</text>
 <rect x="28" y="191" width="8" height="8" fill="#95c76d" rx="3"/>
 <text x="44" y="200" fill="#18352b" font-size="12">C#</text>
-<text x="44" y="217" fill="#597368" font-size="11">20.7%</text>
+<text x="44" y="217" fill="#597368" font-size="11">19.7%</text>
 <rect x="228" y="191" width="8" height="8" fill="#6ea8dc" rx="3"/>
 <text x="244" y="200" fill="#18352b" font-size="12">Python</text>
-<text x="244" y="217" fill="#597368" font-size="11">10.8%</text>
+<text x="244" y="217" fill="#597368" font-size="11">15.0%</text>
 <rect x="28" y="231" width="8" height="8" fill="#a1acba" rx="3"/>
 <text x="44" y="240" fill="#18352b" font-size="12">C</text>
-<text x="44" y="257" fill="#597368" font-size="11">3.5%</text>
+<text x="44" y="257" fill="#597368" font-size="11">3.3%</text>
 <rect x="228" y="231" width="8" height="8" fill="#8daf9e" rx="3"/>
 <text x="244" y="240" fill="#18352b" font-size="12">Other</text>
-<text x="244" y="257" fill="#597368" font-size="11">5.3%</text>
+<text x="244" y="257" fill="#597368" font-size="11">5.1%</text>
 <path d="M28 267H412" stroke="#dce8e1"/>
 <text x="28" y="285" fill="#597368" font-size="11">Small experiments. Different languages.</text>
 </g></svg>
